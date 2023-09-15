@@ -1,0 +1,15 @@
+.sorting-container {
+    display: flex;
+    align-items: baseline;
+
+    transition: 0.3s;
+}
+
+.sorting-content {
+    background-color: aquamarine;
+    width: 20px;
+    height: 100px;
+    margin: 5px;
+
+    transition: 0.3s;
+}
