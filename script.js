@@ -5,7 +5,7 @@ var arr = []
 var parent = document.getElementById("sorting-container")
 
 for (var i = 0; i < elements.length; i++) {
-    var ranHeight = Math.floor(Math.random() * 20)
+    var ranHeight = Math.floor(Math.random() * 15)
 
     elements[i].style = `height: ${(ranHeight * 20) + 90}px`
     arr.push(elements[i])
