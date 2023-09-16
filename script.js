@@ -14,6 +14,11 @@ for (var i = 0; i < elements.length; i++) {
     numsArr.push((ranHeight * 20) + 90)
 }
 
+const DEF_DELAY = 1000;
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms || DEF_DELAY));
+  }
+
 function arrayMove(arr, old_index, new_index) {
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr;
@@ -35,35 +40,61 @@ function arrayPosition(arr, old_index, new_index){
     return arr
 }
 
-function elementMove(arr) {
-    elements = document.querySelectorAll(".sorting-content")
-    console.log(arr)
-    while (parent.hasChildNodes()) parent.removeChild(parent.firstChild)
+//to update hieghts AKA order of array on screen
+function visualizeArr(arr){
 
-    for (var i = 0; i < arr.length; i++) {
-        parent.appendChild(arr[i])
+    for(var i = 0; i < elements.length; i++){
+        elements[i].style=`height: ${arr[i]}px;`
+        elements[i].classList.remove("highlighted")
+    }
+}
+
+//for when an algorythm is going over multiple indexs
+function highlightArr(cur){
+    for(var i = 0; i < elements.length; i++){
+        if(i == cur){
+            elements[i].classList.add("highlighted")
+        } else {
+            elements[i].classList.remove("highlighted")
+        }
+    }
+}
+
+//for an algorythm keeps a index stored for later
+function selectArr(cur){
+    for(var i = 0; i < elements.length; i++){
+        if(i == cur){
+            elements[i].classList.add("selected")
+        } else {
+            elements[i].classList.remove("selected")
+        }
     }
 }
 
 //sorting functions
 
 async function bubbleSort(arr) {
-    var delay = 500
+    var delay = 50
+    var smallDelay = 50
 
     for (var i = 0; i < arr.length; i++) {
-        setTimeout(function () {
 
-            for (var k = 1; k < arr.length; k++) {
-                if (arr[k - 1].offsetHeight >= arr[k].offsetHeight) {
-                    arr = arrayMove(arr, k - 1, k)
-                    elementMove(arr)
-                } else {
-                    continue;
-                }
+        await sleep(delay)
+
+        for (var k = 1; k < arr.length; k++) {
+            await sleep(smallDelay)
+            smallDelay += 10
+
+            if (arr[k - 1] >= arr[k]) {
+                arr = arrayMove(arr, k - 1, k)
+                visualizeArr(arr, k)
+                highlightArr(k)
+            } else {
+                highlightArr(k-1)
+                continue;
             }
-
-        }, delay);
-        delay += 500
+        }
+        delay += 50
     }
 
     return arr
@@ -71,56 +102,60 @@ async function bubbleSort(arr) {
 
 async function selectionSort(arr) {
     var delay = 200
+    var smallDelay = 50
     var minPos = 0
-    
+
     for (var i = 0; i < arr.length; i++) {
         minPos = i
-        console.log(arr)
+        console.log(i, arr.length)
+        
+        await sleep(delay)
 
-        var pauseCall = function (j) {
-            setTimeout(function() { 
-                console.log(i)
-            for (var k = i + 1; k < arr.length; k++) {
-
-                console.log(arr[minPos].offsetHeight, i)
-
-                if (arr[minPos].offsetHeight >= arr[k].offsetHeight) {
-                    minPos = k
-                } else {
-                    continue;
-                }
+        for (var k = i + 1; k < arr.length; k++) {
+            await sleep(smallDelay)
+            smallDelay += 25
+            if (arr[minPos] >= arr[k]) {
+                selectArr(k)
+                minPos = k
+            } else {
+                highlightArr(k) 
             }
-            console.log(arr)
+        }
+
+        smallDelay = 25
+
+        if(minPos == i){
+
+        } else {
             arr = arrayPosition(arr, i, minPos)
-            elementMove(arr)
-            }, delay);
+            visualizeArr(arr, i)
         }
 
-        pauseCall(i)
-
-        delay += 200
+        delay += 50
+        smallDelay = 25
     }
-    
-    var k = 0
 
-    if (arr[0].offsetHeight > arr[1].offsetHeight){
-        console.log("WOWWWW", arr[0], arr[1])
-        for(var i = 1; i < arr.length; i++) {
-            if(arr[k].offsetHeight >= arr[i].offsetHeight){
-                arrayMove(arr, k, i)
-                elementMove(arr)
-                k++
-            }
-        }
-    }
+    selectArr(-1)
+
     return arr
 }
-console.log(selectionSort(arr))
+
+console.log(selectionSort(numsArr))
 
 
+//input functions 
 
+function refresh(){
+    for (var i = 0; i < elements.length; i++) {
+        var ranHeight = Math.floor(Math.random() * 15)
+    
+        elements[i].style = `height: ${(ranHeight * 20) + 90}px`
+        arr.push(elements[i])
+        numsArr.push((ranHeight * 20) + 90)
+    }
 
-
+    console.log(selectionSort(numsArr))
+}
 
 
 //store all functional sorting methods here, while sorting methods used to order divs will be above
@@ -148,9 +183,6 @@ async function selectionSortArray(arr) {
             minPos = i
     
             for (var k = i + 1; k < arr.length; k++) {
-    
-                console.log(arr)
-                console.log(minPos)
 
                 if (arr[minPos] >= arr[k]) {
                     minPos = k
@@ -169,4 +201,6 @@ async function selectionSortArray(arr) {
         }
     
         return arr
-    }
+}
+
+

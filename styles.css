@@ -19,6 +19,14 @@
     transition: 0.3s;
 }
 
+.highlighted {
+    filter: brightness(1.2);
+}
+
+.selected {
+    filter: brightness(0.8);
+}
+
 .dark {
     filter: brightness(1.2);
 }
