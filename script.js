@@ -16,6 +16,8 @@ for (var i = 0; i < elements.length; i++) {
     numsArr.push((ranHeight * 20) + 90)
 }
 
+stop()
+
 const DEF_DELAY = 1000;
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms || DEF_DELAY));
@@ -50,11 +52,15 @@ function visualizeArr(arr){
         elements[i].classList.remove("highlighted")
     }
 
+    arrayElement.innerHTML = ""
     var tempArr = []
     for(var val of arr){
-        tempArr.push((val-90)/20)
+        if((val-90)/20 < 10){
+            arrayElement.innerHTML+=`<div>  &nbsp${((val-90)/20)}<div/>`
+        } else {
+            arrayElement.innerHTML+=`<div>${((val-90)/20)}<div/>`
+        }
     }
-    arrayElement.innerHTML = tempArr
 }
 
 function cleanClasses(){
@@ -244,6 +250,7 @@ async function go(){
         console.log(selectionSort(numsArr))
     } else if(curSortMethod == "bubble"){
         console.log(bubbleSort(numsArr))
+    } else if(curSortMethod === "quick"){
     }
 }
 

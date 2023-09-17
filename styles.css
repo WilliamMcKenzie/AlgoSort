@@ -1,3 +1,13 @@
+button {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+
+    font-family: "Inter";
+    color: rgb(51, 51, 51);
+}
+
 .sorting-container {
     display: flex;
     align-items: baseline;
@@ -14,18 +24,31 @@
     position: absolute; 
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: 20%;
-    width: 350px;
-    font-size: 2vw;
+    bottom: 15%;
+    width: 72vh;
+    font-size: 4vh;
 
     transition: 0.3s;
+
+    font-family: 'Inter';
+    text-align: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
+
+span{
+    background-color:red;
+    width:100%;
+    height:1em;
+    display:inline-block;
+  }
 
 .sorting-content {
     background-color: aquamarine;
-    width: 20px;
+    width: 4vh;
     height: 100px;
-    margin: 5px;
+    margin: 1vh;
 
     transition: 0.3s;
 }
@@ -44,8 +67,15 @@
 
 .selectedMethod {
     background-color: aquamarine;
+    padding: 8px;
+    border: 2px solid rgb(164, 255, 225);
 }
 
 .dark {
     filter: brightness(1.2);
 }
+
+@font-face {
+    font-family: 'Inter';
+    src: url('Inter-Regular.ttf');
+  }
