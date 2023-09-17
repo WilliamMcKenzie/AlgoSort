@@ -27,6 +27,10 @@
     filter: brightness(0.8);
 }
 
+.selectedMethod {
+    background-color: aquamarine;
+}
+
 .dark {
     filter: brightness(1.2);
 }

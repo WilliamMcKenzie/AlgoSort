@@ -53,8 +53,11 @@
         <button class="refresh" onclick="refresh()">
             Refresh
         </button>
-        <button class="method" onclick="changeMethod()">
+        <button class="method selectedMethod" id="selection" onclick="switchSortMethod(`selection`)">
             Selection Sort
+        </button>
+        <button class="method" id="bubble" onclick="switchSortMethod(`bubble`)">
+            Bubble Sort
         </button>
     </div>
 </body>

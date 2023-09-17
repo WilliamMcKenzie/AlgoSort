@@ -4,6 +4,9 @@ var elements = document.querySelectorAll(".sorting-content")
 var arr = []
 var numsArr = []
 
+var stopAlgo = false
+var curSortMethod = "selection"
+
 var parent = document.getElementById("sorting-container")
 
 for (var i = 0; i < elements.length; i++) {
@@ -77,25 +80,30 @@ async function bubbleSort(arr) {
     var delay = 50
     var smallDelay = 50
 
+    //see if the array is in correct order
+    var ticker = true
+
     for (var i = 0; i < arr.length; i++) {
 
         await sleep(delay)
 
         for (var k = 1; k < arr.length; k++) {
             await sleep(smallDelay)
-            smallDelay += 10
 
             if (arr[k - 1] >= arr[k]) {
                 arr = arrayMove(arr, k - 1, k)
                 visualizeArr(arr, k)
                 highlightArr(k)
+
+                ticker = false
             } else {
                 highlightArr(k-1)
                 continue;
             }
         }
-        delay += 50
     }
+
+    highlightArr(-1)
 
     return arr
 }
@@ -113,12 +121,15 @@ async function selectionSort(arr) {
 
         for (var k = i + 1; k < arr.length; k++) {
             await sleep(smallDelay)
-            smallDelay += 25
             if (arr[minPos] >= arr[k]) {
                 selectArr(k)
                 minPos = k
             } else {
                 highlightArr(k) 
+            }
+
+            if(stopAlgo == true){
+                return
             }
         }
 
@@ -130,12 +141,11 @@ async function selectionSort(arr) {
             arr = arrayPosition(arr, i, minPos)
             visualizeArr(arr, i)
         }
-
-        delay += 50
         smallDelay = 25
     }
 
     selectArr(-1)
+    highlightArr(-1)
 
     return arr
 }
@@ -145,7 +155,19 @@ console.log(selectionSort(numsArr))
 
 //input functions 
 
-function refresh(){
+async function refresh(){
+
+    arr = []
+    numsArr = []
+    stopAlgo = true
+    selectArr(-1)
+    highlightArr(-1)
+
+
+    await sleep(200)
+
+    stopAlgo = false
+
     for (var i = 0; i < elements.length; i++) {
         var ranHeight = Math.floor(Math.random() * 15)
     
@@ -154,8 +176,25 @@ function refresh(){
         numsArr.push((ranHeight * 20) + 90)
     }
 
-    console.log(selectionSort(numsArr))
+    if(curSortMethod == "selection"){
+        console.log(selectionSort(numsArr))
+    } else if(curSortMethod == "bubble"){
+        console.log(bubbleSort(numsArr))
+    }
 }
+
+function switchSortMethod(method){
+    curSortMethod = method
+
+    document.querySelector(".selectedMethod") ? document.querySelector(".selectedMethod").classList.remove("selectedMethod")  : "";
+    document.getElementById(method).classList.add("selectedMethod")
+    console.log(method)
+
+}
+
+
+
+
 
 
 //store all functional sorting methods here, while sorting methods used to order divs will be above
