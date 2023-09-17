@@ -1,13 +1,12 @@
 
 var elements = document.querySelectorAll(".sorting-content")
+var arrayElement = document.getElementById("sorting-array")
 
 var arr = []
 var numsArr = []
 
 var stopAlgo = false
 var curSortMethod = "selection"
-
-var parent = document.getElementById("sorting-container")
 
 for (var i = 0; i < elements.length; i++) {
     var ranHeight = Math.floor(Math.random() * 15)
@@ -50,6 +49,20 @@ function visualizeArr(arr){
         elements[i].style=`height: ${arr[i]}px;`
         elements[i].classList.remove("highlighted")
     }
+
+    var tempArr = []
+    for(var val of arr){
+        tempArr.push((val-90)/20)
+    }
+    arrayElement.innerHTML = tempArr
+}
+
+function cleanClasses(){
+    for(var i = 0; i < elements.length; i++){
+        elements[i].classList.remove("highlighted")
+        elements[i].classList.remove("selected")
+        elements[i].classList.remove("success")
+    }
 }
 
 //for when an algorythm is going over multiple indexs
@@ -72,6 +85,37 @@ function selectArr(cur){
             elements[i].classList.remove("selected")
         }
     }
+}
+
+//for when array is sorted
+async function isSorted(arr){
+    var chain = 0
+
+    for (let i = 0; i < arr.length-1; i++) {
+        if(arr[i] <= arr[i+1]){
+            console.log(chain, arr)
+            chain++
+        }
+    }
+
+    if(chain == arr.length-1){
+        stopAlgo = true
+        cleanClasses()
+        await sleep(200)
+        success(arr)
+    }
+}
+
+async function success(arr){
+    var delay = 20
+
+    for (let index = 0; index < arr.length; index++) {
+        cleanClasses()
+        elements[index].classList.add("success")
+        await sleep(delay)
+        delay += i
+    }
+    cleanClasses()
 }
 
 //sorting functions
@@ -100,10 +144,16 @@ async function bubbleSort(arr) {
                 highlightArr(k-1)
                 continue;
             }
+
+            if(stopAlgo == true){
+                return
+            }
         }
+
+        isSorted(arr)
     }
 
-    highlightArr(-1)
+    cleanClasses()
 
     return arr
 }
@@ -142,29 +192,43 @@ async function selectionSort(arr) {
             visualizeArr(arr, i)
         }
         smallDelay = 25
+        isSorted(arr)
     }
 
-    selectArr(-1)
-    highlightArr(-1)
+    cleanClasses()
 
     return arr
 }
 
-console.log(selectionSort(numsArr))
-
 
 //input functions 
 
-async function refresh(){
+async function stop(){
 
     arr = []
     numsArr = []
     stopAlgo = true
+
+    await sleep(500)
+
+    for (var i = 0; i < elements.length; i++) {
+        
+        elements[i].classList.remove("selected")
+        elements[i].classList.remove("highlighted")
+
+        elements[i].style = `height: ${(1 * 20) + 90}px`
+        arr.push(elements[i])
+        numsArr.push((ranHeight * 20) + 90)
+    }
+}
+
+async function go(){
+
+    arr = []
+    numsArr = []
+
     selectArr(-1)
     highlightArr(-1)
-
-
-    await sleep(200)
 
     stopAlgo = false
 

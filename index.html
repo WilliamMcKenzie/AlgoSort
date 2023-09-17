@@ -49,9 +49,15 @@
 
         </div>
     </div>
+    <div id="sorting-array" contenteditable="true">
+        []
+    </div>
     <div class="sorting-input"> 
-        <button class="refresh" onclick="refresh()">
-            Refresh
+        <button class="stop" onclick="stop()">
+            Stop
+        </button>
+        <button class="go" onclick="go()">
+            Go
         </button>
         <button class="method selectedMethod" id="selection" onclick="switchSortMethod(`selection`)">
             Selection Sort
