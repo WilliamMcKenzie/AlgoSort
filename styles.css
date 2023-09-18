@@ -2,11 +2,21 @@ button {
     border: none;
     outline: none;
     padding: 10px;
+    margin: 5px;
     border-radius: 10px;
 
     font-family: "Inter";
     color: rgb(51, 51, 51);
+
+    transition: 0.3s;
 }
+
+button:hover {
+    filter: brightness(0.9);
+    transform: scale(1.05   );
+    transition: 0s;
+}
+
 
 .sorting-container {
     display: flex;
@@ -37,13 +47,6 @@ button {
     justify-content: space-between;
 }
 
-span{
-    background-color:red;
-    width:100%;
-    height:1em;
-    display:inline-block;
-  }
-
 .sorting-content {
     background-color: aquamarine;
     width: 4vh;
@@ -64,11 +67,16 @@ span{
 .success {
     filter: brightness(1.5);
 }
+.sorting-input {
+    display: flex;
+    align-items: center;
+
+}
 
 .selectedMethod {
-    background-color: aquamarine;
-    padding: 8px;
-    border: 2px solid rgb(164, 255, 225);
+    background-color: white;
+    padding: 10px;
+    border: 2px solid aquamarine;
 }
 
 .dark {
