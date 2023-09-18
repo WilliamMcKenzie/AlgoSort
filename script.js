@@ -6,6 +6,7 @@ var arr = []
 var numsArr = []
 
 var stopAlgo = false
+var algoInProgress = false
 var curSortMethod = "selection"
 
 for (var i = 0; i < elements.length; i++) {
@@ -122,6 +123,7 @@ async function success(arr){
         delay += i
     }
     cleanClasses()
+    algoInProgress = false
 }
 
 //sorting functions
@@ -217,6 +219,8 @@ async function stop(){
 
     await sleep(500)
 
+    algoInProgress = false
+
     for (var i = 0; i < elements.length; i++) {
         
         elements[i].classList.remove("selected")
@@ -230,29 +234,36 @@ async function stop(){
 
 async function go(){
 
-    arr = []
-    numsArr = []
-
-    selectArr(-1)
-    highlightArr(-1)
-
-    stopAlgo = false
-
-    for (var i = 0; i < elements.length; i++) {
-        var ranHeight = Math.floor(Math.random() * 15)
+    if(algoInProgress == true){
+        await stop()
+    }
+        arr = []
+        numsArr = []
     
-        elements[i].style = `height: ${(ranHeight * 20) + 90}px`
-        arr.push(elements[i])
-        numsArr.push((ranHeight * 20) + 90)
-    }
+        selectArr(-1)
+        highlightArr(-1)
+    
+        stopAlgo = false
+    
+        for (var i = 0; i < elements.length; i++) {
+            var ranHeight = Math.floor(Math.random() * 15)
+        
+            elements[i].style = `height: ${(ranHeight * 20) + 90}px`
+            arr.push(elements[i])
+            numsArr.push((ranHeight * 20) + 90)
+        }
+    
+        if(curSortMethod == "selection"){
+            console.log(selectionSort(numsArr))
+        } else if(curSortMethod == "bubble"){
+            console.log(bubbleSort(numsArr))
+        } else if(curSortMethod === "quick"){
+        }
 
-    if(curSortMethod == "selection"){
-        console.log(selectionSort(numsArr))
-    } else if(curSortMethod == "bubble"){
-        console.log(bubbleSort(numsArr))
-    } else if(curSortMethod === "quick"){
-    }
+        algoInProgress = true
+    
 }
+
 
 function switchSortMethod(method){
     curSortMethod = method
